@@ -1,10 +1,12 @@
 package org.jboss.aerogear.core;
 
 import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@WebFilter(filterName = "AeroGear", urlPatterns = "*")
 public class AeroGear implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
