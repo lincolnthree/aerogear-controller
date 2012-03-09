@@ -42,9 +42,10 @@ public class AeroGearTest {
 
     @Test
     public void servesASimpleRequest() throws IOException, ServletException {
+        when(request.getMethod()).thenReturn("GET");
         when(request.getRequestURI()).thenReturn("/test1");
-        when(router.hasPath(eq("/test1"))).thenReturn(true);
-        when(router.hasPath(eq("/test2"))).thenReturn(false);
+        when(router.hasPath(eq("/test1"), eq(HttpMethod.GET))).thenReturn(true);
+        when(router.hasPath(eq("/test2"), eq(HttpMethod.GET))).thenReturn(false);
         aeroGear.doFilter(request, response, chain);
         verifyZeroInteractions(chain);
         verify(router).dispatch(request, response, chain);

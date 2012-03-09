@@ -25,7 +25,9 @@ public class AeroGear implements Filter {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 
-        if (router.hasPath(httpServletRequest.getRequestURI())) {
+        String requestURI = httpServletRequest.getRequestURI();
+        HttpMethod method = HttpMethod.valueOf(httpServletRequest.getMethod());
+        if (router.hasPath(requestURI, method)) {
             router.dispatch(httpServletRequest, httpServletResponse, chain);
             return;
         }
