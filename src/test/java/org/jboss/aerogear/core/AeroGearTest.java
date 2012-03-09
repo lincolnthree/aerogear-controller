@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.*;
 
 public class AeroGearTest {
 
@@ -25,11 +25,14 @@ public class AeroGearTest {
     private HttpServletResponse response;
     @Mock
     private FilterChain chain;
+    @Mock
+    private Router router;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         aeroGear = new AeroGear();
+        aeroGear.setRouter(router);
     }
 
     @Test(expected = ServletException.class)
@@ -40,6 +43,14 @@ public class AeroGearTest {
     @Test
     public void servesASimpleRequest() throws IOException, ServletException {
         when(request.getRequestURI()).thenReturn("/test1");
+        when(router.hasPath(eq("/test1"))).thenReturn(true);
+        when(router.hasPath(eq("/test2"))).thenReturn(false);
         aeroGear.doFilter(request, response, chain);
+        verifyZeroInteractions(chain);
+        verify(router).dispatch(request, response, chain);
+        when(request.getRequestURI()).thenReturn("/test2");
+        aeroGear.doFilter(request, response, chain);
+        verify(chain).doFilter(request, response);
     }
+
 }
