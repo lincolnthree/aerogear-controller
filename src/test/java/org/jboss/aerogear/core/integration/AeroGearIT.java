@@ -13,6 +13,7 @@ import org.junit.runner.RunWith;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -35,8 +36,8 @@ public class AeroGearIT {
     private URL url;
 
     @Test
-    public void testIt() throws IOException, URISyntaxException {
-        URL target = new URL(url + "/dummy/moar").toURI().normalize().toURL();
+    public void testStaticHtmlDispatch() throws IOException, URISyntaxException {
+        URL target = getNormalizedURL("/dummy/moar");
         URLConnection connection = target.openConnection();
         connection.connect();
         InputStreamReader reader = new InputStreamReader(connection.getInputStream());
@@ -44,4 +45,17 @@ public class AeroGearIT {
         bufferedReader.close();
     }
 
+    @Test
+    public void testDynamicJspDispatch() throws IOException, URISyntaxException {
+        URL target = getNormalizedURL("/dummy/moarJsp");
+        URLConnection connection = target.openConnection();
+        connection.connect();
+        InputStreamReader reader = new InputStreamReader(connection.getInputStream());
+        BufferedReader bufferedReader = new BufferedReader(reader);
+        bufferedReader.close();
+    }
+
+    private URL getNormalizedURL(String targetPath) throws MalformedURLException, URISyntaxException {
+        return new URL(url + targetPath).toURI().normalize().toURL();
+    }
 }

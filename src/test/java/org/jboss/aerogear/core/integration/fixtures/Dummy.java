@@ -16,4 +16,11 @@ public class Dummy {
         return new View("/page.html");
     }
 
+    @GET
+    @Path("/moarJsp")
+    @Produces("text/html")
+    public View moarJsp() {
+        return new View("/page.jsp");
+    }
+
 }
