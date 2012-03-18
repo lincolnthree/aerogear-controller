@@ -1,5 +1,8 @@
-package org.jboss.aerogear.core;
+package org.jboss.aerogear.core.integration;
 
+import org.jboss.aerogear.core.AeroGear;
+import org.jboss.aerogear.core.View;
+import org.jboss.aerogear.core.integration.MyApplication;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
@@ -11,25 +14,25 @@ import org.junit.runner.RunWith;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Application;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.HashSet;
-import java.util.Set;
 
 @RunWith(Arquillian.class)
-public class AeroGearTest {
+public class AeroGearIT {
 
     @Deployment(testable = false)
     public static WebArchive deploy() {
         return ShrinkWrap.create(WebArchive.class, "aerogear-test.war")
                 .addClass(AeroGear.class)
                 .addClass(Dummy.class)
-                .addClass(Dispatcher.class);
+                .addClass(MyApplication.class)
+                .addClass(View.class)
+                .addAsWebResource("page.html", "page.html")
+                .addAsWebInfResource("web.xml", "web.xml");
     }
 
     @ArquillianResource()
@@ -49,20 +52,13 @@ public class AeroGearTest {
     @Path("/dummy")
     public static class Dummy {
 
-        @GET @Path("/moar")
-        public void index() {
-
+        @GET
+        @Path("/moar")
+        @Produces("text/html")
+        public View index() {
+            return new View();
         }
 
-    }
-
-    public static class MyApplication extends Application {
-        @Override
-        public Set<Class<?>> getClasses() {
-            return new HashSet<Class<?>>(new HashSet<Class<?>>() {{
-                add(AeroGear.class);
-            }});
-        }
     }
 
 }
