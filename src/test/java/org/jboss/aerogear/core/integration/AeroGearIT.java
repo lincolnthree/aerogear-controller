@@ -3,6 +3,7 @@ package org.jboss.aerogear.core.integration;
 import org.jboss.aerogear.core.AeroGear;
 import org.jboss.aerogear.core.View;
 import org.jboss.aerogear.core.integration.MyApplication;
+import org.jboss.aerogear.core.integration.fixtures.Dummy;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
@@ -11,9 +12,6 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -47,18 +45,6 @@ public class AeroGearIT {
         BufferedReader bufferedReader = new BufferedReader(reader);
         System.out.println(bufferedReader.readLine());
         bufferedReader.close();
-    }
-
-    @Path("/dummy")
-    public static class Dummy {
-
-        @GET
-        @Path("/moar")
-        @Produces("text/html")
-        public View index() {
-            return new View();
-        }
-
     }
 
 }
