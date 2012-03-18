@@ -1,6 +1,7 @@
 package org.jboss.aerogear.core.integration;
 
 import org.jboss.aerogear.core.AeroGear;
+import org.jboss.aerogear.core.integration.fixtures.Dummy;
 
 import javax.ws.rs.core.Application;
 import java.util.HashSet;
@@ -11,7 +12,7 @@ public class MyApplication extends Application {
     public Set<Class<?>> getClasses() {
         return new HashSet<Class<?>>(new HashSet<Class<?>>() {{
             add(AeroGear.class);
-            add(AeroGearIT.Dummy.class);
+            add(Dummy.class);
         }});
     }
 }
