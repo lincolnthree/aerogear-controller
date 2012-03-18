@@ -1,13 +1,15 @@
 package org.jboss.aerogear.core.integration;
 
 import org.jboss.aerogear.core.AeroGear;
+import org.jboss.aerogear.core.HttpRequestResponseFactory;
+import org.jboss.aerogear.core.ResteasyHttpRequestResponseFactory;
 import org.jboss.aerogear.core.View;
-import org.jboss.aerogear.core.integration.MyApplication;
 import org.jboss.aerogear.core.integration.fixtures.Dummy;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,11 +31,15 @@ public class AeroGearIT {
                 .addClass(Dummy.class)
                 .addClass(MyApplication.class)
                 .addClass(View.class)
+                .addClass(ResteasyHttpRequestResponseFactory.class)
+                .addClass(HttpRequestResponseFactory.class)
+                .addAsWebResource("page.jsp", "page.jsp")
                 .addAsWebResource("page.html", "page.html")
+                .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
                 .addAsWebInfResource("web.xml", "web.xml");
     }
 
-    @ArquillianResource()
+    @ArquillianResource
     private URL url;
 
     @Test
