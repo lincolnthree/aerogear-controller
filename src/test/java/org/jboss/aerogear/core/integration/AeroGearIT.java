@@ -18,6 +18,8 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 
+import static org.fest.assertions.Assertions.assertThat;
+
 @RunWith(Arquillian.class)
 public class AeroGearIT {
 
@@ -38,21 +40,29 @@ public class AeroGearIT {
     @Test
     public void testStaticHtmlDispatch() throws IOException, URISyntaxException {
         URL target = getNormalizedURL("/dummy/moar");
-        URLConnection connection = target.openConnection();
-        connection.connect();
-        InputStreamReader reader = new InputStreamReader(connection.getInputStream());
-        BufferedReader bufferedReader = new BufferedReader(reader);
-        bufferedReader.close();
+        String result = get(target);
+        assertThat(result).isNotEmpty();
     }
 
     @Test
     public void testDynamicJspDispatch() throws IOException, URISyntaxException {
         URL target = getNormalizedURL("/dummy/moarJsp");
+        String result = get(target);
+        assertThat(result).isNotEmpty();
+    }
+
+    private String get(URL target) throws IOException {
         URLConnection connection = target.openConnection();
         connection.connect();
         InputStreamReader reader = new InputStreamReader(connection.getInputStream());
         BufferedReader bufferedReader = new BufferedReader(reader);
+        StringBuilder builder = new StringBuilder();
+        String tmp = null;
+        while ((tmp = bufferedReader.readLine()) != null) {
+            builder.append(tmp);
+        }
         bufferedReader.close();
+        return builder.toString();
     }
 
     private URL getNormalizedURL(String targetPath) throws MalformedURLException, URISyntaxException {
