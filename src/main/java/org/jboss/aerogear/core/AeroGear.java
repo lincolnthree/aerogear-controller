@@ -1,7 +1,5 @@
 package org.jboss.aerogear.core;
 
-import org.jboss.resteasy.spi.ResteasyProviderFactory;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,6 +19,15 @@ import java.lang.reflect.Type;
 public class AeroGear implements MessageBodyWriter<Object> {
 
     public static final int UNKNOWN_SIZE = -1;
+    private final HttpRequestResponseFactory httpRequestResponseFactory;
+
+    public AeroGear() {
+        httpRequestResponseFactory = new ResteasyHttpRequestResponseFactory();
+    }
+
+    public AeroGear(HttpRequestResponseFactory httpRequestResponseFactory) {
+        this.httpRequestResponseFactory = httpRequestResponseFactory;
+    }
 
     @Override
     public boolean isWriteable(Class<?> aClass, Type type, Annotation[] annotations, MediaType mediaType) {
@@ -36,12 +43,13 @@ public class AeroGear implements MessageBodyWriter<Object> {
     public void writeTo(Object o, Class<?> aClass, Type type, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, Object> stringObjectMultivaluedMap, OutputStream outputStream) throws IOException, WebApplicationException {
         View view = (View) o;
 
-        HttpServletRequest request = ResteasyProviderFactory.getContextData(HttpServletRequest.class);
-        HttpServletResponse response = ResteasyProviderFactory.getContextData(HttpServletResponse.class);
+        HttpServletRequest request = httpRequestResponseFactory.getRequest();
+        HttpServletResponse response = httpRequestResponseFactory.getResponse();
         try {
-            request.getRequestDispatcher("/page.html").forward(request, response);
+            request.getRequestDispatcher(view.getViewPath()).forward(request, response);
         } catch (ServletException e) {
             throw new WebApplicationException(e);
         }
     }
+
 }
