@@ -43,7 +43,6 @@ public class AeroGearIT {
         connection.connect();
         InputStreamReader reader = new InputStreamReader(connection.getInputStream());
         BufferedReader bufferedReader = new BufferedReader(reader);
-        System.out.println(bufferedReader.readLine());
         bufferedReader.close();
     }
 
