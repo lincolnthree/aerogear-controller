@@ -20,6 +20,8 @@ import java.lang.reflect.Type;
 @Produces("text/html")
 public class AeroGear implements MessageBodyWriter<Object> {
 
+    public static final int UNKNOWN_SIZE = -1;
+
     @Override
     public boolean isWriteable(Class<?> aClass, Type type, Annotation[] annotations, MediaType mediaType) {
         return View.class.isAssignableFrom(aClass);
@@ -27,13 +29,13 @@ public class AeroGear implements MessageBodyWriter<Object> {
 
     @Override
     public long getSize(Object o, Class<?> aClass, Type type, Annotation[] annotations, MediaType mediaType) {
-        return -1;  //To change body of implemented methods use File | Settings | File Templates.
+        return UNKNOWN_SIZE;
     }
 
     @Override
     public void writeTo(Object o, Class<?> aClass, Type type, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, Object> stringObjectMultivaluedMap, OutputStream outputStream) throws IOException, WebApplicationException {
         View view = (View) o;
-        
+
         HttpServletRequest request = ResteasyProviderFactory.getContextData(HttpServletRequest.class);
         HttpServletResponse response = ResteasyProviderFactory.getContextData(HttpServletResponse.class);
         try {
