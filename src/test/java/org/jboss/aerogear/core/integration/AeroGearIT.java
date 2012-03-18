@@ -1,9 +1,5 @@
 package org.jboss.aerogear.core.integration;
 
-import org.jboss.aerogear.core.AeroGear;
-import org.jboss.aerogear.core.HttpRequestResponseFactory;
-import org.jboss.aerogear.core.ResteasyHttpRequestResponseFactory;
-import org.jboss.aerogear.core.View;
 import org.jboss.aerogear.core.integration.fixtures.Dummy;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -27,12 +23,8 @@ public class AeroGearIT {
     @Deployment(testable = false)
     public static WebArchive deploy() {
         return ShrinkWrap.create(WebArchive.class, "aerogear-test.war")
-                .addClass(AeroGear.class)
-                .addClass(Dummy.class)
-                .addClass(MyApplication.class)
-                .addClass(View.class)
-                .addClass(ResteasyHttpRequestResponseFactory.class)
-                .addClass(HttpRequestResponseFactory.class)
+                .addPackage("org.jboss.aerogear.core")
+                .addClasses(Dummy.class, MyApplication.class)
                 .addAsWebResource("page.jsp", "page.jsp")
                 .addAsWebResource("page.html", "page.html")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
