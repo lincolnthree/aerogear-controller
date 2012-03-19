@@ -1,4 +1,4 @@
-package org.jboss.aerogear.core;
+package org.jboss.aerogear.controller;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

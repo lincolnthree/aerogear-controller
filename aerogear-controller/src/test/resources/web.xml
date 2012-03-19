@@ -4,10 +4,10 @@
          version="3.0">
     <filter>
         <filter-name>AeroGear</filter-name>
-        <filter-class>org.jboss.aerogear.core.AeroGearFilterDispatcher</filter-class>
+        <filter-class>org.jboss.aerogear.controller.AeroGearFilterDispatcher</filter-class>
         <init-param>
             <param-name>javax.ws.rs.Application</param-name>
-            <param-value>org.jboss.aerogear.core.integration.MyApplication</param-value>
+            <param-value>org.jboss.aerogear.controller.integration.MyApplication</param-value>
         </init-param>
     </filter>
     <filter-mapping>

@@ -1,7 +1,7 @@
-package org.jboss.aerogear.core.integration;
+package org.jboss.aerogear.controller.integration;
 
-import org.jboss.aerogear.core.AeroGear;
-import org.jboss.aerogear.core.integration.fixtures.Dummy;
+import org.jboss.aerogear.controller.AeroGear;
+import org.jboss.aerogear.controller.integration.fixtures.Dummy;
 
 import javax.ws.rs.core.Application;
 import java.util.HashSet;

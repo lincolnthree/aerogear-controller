@@ -1,4 +1,4 @@
-package org.jboss.aerogear.core;
+package org.jboss.aerogear.controller;
 
 import org.jboss.resteasy.spi.ResteasyProviderFactory;
 

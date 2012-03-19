@@ -1,6 +1,6 @@
-package org.jboss.aerogear.core.integration.fixtures;
+package org.jboss.aerogear.controller.integration.fixtures;
 
-import org.jboss.aerogear.core.View;
+import org.jboss.aerogear.controller.View;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

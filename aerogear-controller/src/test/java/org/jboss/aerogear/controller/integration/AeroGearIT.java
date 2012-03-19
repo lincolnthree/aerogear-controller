@@ -1,6 +1,6 @@
-package org.jboss.aerogear.core.integration;
+package org.jboss.aerogear.controller.integration;
 
-import org.jboss.aerogear.core.integration.fixtures.Dummy;
+import org.jboss.aerogear.controller.integration.fixtures.Dummy;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
@@ -26,7 +26,7 @@ public class AeroGearIT {
     @Deployment(testable = false)
     public static WebArchive deploy() {
         return ShrinkWrap.create(WebArchive.class, "aerogear-test.war")
-                .addPackage("org.jboss.aerogear.core")
+                .addPackage("org.jboss.aerogear.controller")
                 .addClasses(Dummy.class, MyApplication.class)
                 .addAsWebResource("page.jsp", "page.jsp")
                 .addAsWebResource("page.html", "page.html")
