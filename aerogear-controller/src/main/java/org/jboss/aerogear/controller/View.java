@@ -18,5 +18,6 @@ public class View {
     }
 
     public String getModelName() {
+        return null;
     }
 }
