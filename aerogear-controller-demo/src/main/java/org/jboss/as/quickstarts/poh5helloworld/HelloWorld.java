@@ -16,7 +16,7 @@
  */
 package org.jboss.as.quickstarts.poh5helloworld;
 
-import org.jboss.aerogear.controller.View;
+import org.jboss.aerogear.controller.view.View;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
