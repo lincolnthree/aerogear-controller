@@ -1,4 +1,4 @@
-package org.jboss.aerogear.controller;
+package org.jboss.aerogear.controller.util;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;

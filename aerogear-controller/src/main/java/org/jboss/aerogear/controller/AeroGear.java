@@ -1,5 +1,9 @@
 package org.jboss.aerogear.controller;
 
+import org.jboss.aerogear.controller.servlet.HttpRequestResponseFactory;
+import org.jboss.aerogear.controller.servlet.resteasy.ResteasyHttpRequestResponseFactory;
+import org.jboss.aerogear.controller.view.View;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

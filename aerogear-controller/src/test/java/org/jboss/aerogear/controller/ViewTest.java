@@ -1,6 +1,6 @@
 package org.jboss.aerogear.controller;
 
-import org.junit.Ignore;
+import org.jboss.aerogear.controller.view.View;
 import org.junit.Test;
 
 import static org.fest.assertions.Assertions.assertThat;

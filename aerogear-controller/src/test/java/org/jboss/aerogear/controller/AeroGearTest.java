@@ -1,5 +1,7 @@
 package org.jboss.aerogear.controller;
 
+import org.jboss.aerogear.controller.servlet.HttpRequestResponseFactory;
+import org.jboss.aerogear.controller.view.View;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;

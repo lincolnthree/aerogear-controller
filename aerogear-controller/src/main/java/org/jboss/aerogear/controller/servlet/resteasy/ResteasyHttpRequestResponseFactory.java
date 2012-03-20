@@ -1,5 +1,6 @@
-package org.jboss.aerogear.controller;
+package org.jboss.aerogear.controller.servlet.resteasy;
 
+import org.jboss.aerogear.controller.servlet.HttpRequestResponseFactory;
 import org.jboss.resteasy.spi.ResteasyProviderFactory;
 
 import javax.inject.Named;

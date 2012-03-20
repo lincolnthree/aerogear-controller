@@ -1,4 +1,6 @@
-package org.jboss.aerogear.controller;
+package org.jboss.aerogear.controller.view;
+
+import org.jboss.aerogear.controller.util.TypeNameExtractor;
 
 public class View {
     private final String viewPath;

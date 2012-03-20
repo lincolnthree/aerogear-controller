@@ -1,4 +1,4 @@
-package org.jboss.aerogear.controller;
+package org.jboss.aerogear.controller.servlet;
 
 import org.jboss.resteasy.plugins.server.servlet.FilterDispatcher;
 import org.jboss.resteasy.spi.HttpResponse;

@@ -1,5 +1,6 @@
 package org.jboss.aerogear.controller;
 
+import org.jboss.aerogear.controller.util.TypeNameExtractor;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
