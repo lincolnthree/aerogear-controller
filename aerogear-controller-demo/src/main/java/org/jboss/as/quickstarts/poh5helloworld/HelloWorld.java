@@ -51,11 +51,23 @@ public class HelloWorld {
         return "<xml><result>" + helloService.createHelloMessage(name)
                 + "</result></xml>";
     }
-    
+
     @GET
     @Path("/welcome")
-    public View welcome(){
-        return new View("/index.jsp");
+    public View welcome() {
+        return new View("/index.jsp", new Message("hello from Message bean"));
+    }
+
+    public class Message {
+        private final String text;
+
+        public Message(String text) {
+            this.text = text;
+        }
+
+        public String getText() {
+            return text;
+        }
     }
 
 }

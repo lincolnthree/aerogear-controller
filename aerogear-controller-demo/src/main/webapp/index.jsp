@@ -1,4 +1,7 @@
 <%@page pageEncoding="UTF-8" %>
 <html>
-    <body>it works!</body>
+    <body>
+        <p>it works!</p>
+        <p>${message.text}</p>
+    </body>
 </html>
