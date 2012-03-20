@@ -46,6 +46,9 @@ public class AeroGear implements MessageBodyWriter<Object> {
         HttpServletRequest request = httpRequestResponseFactory.getRequest();
         HttpServletResponse response = httpRequestResponseFactory.getResponse();
         try {
+            if (view.hasModelData()) {
+                request.setAttribute(view.getModelName(), view.getModel());
+            }
             request.getRequestDispatcher(view.getViewPath()).forward(request, response);
         } catch (ServletException e) {
             throw new WebApplicationException(e);

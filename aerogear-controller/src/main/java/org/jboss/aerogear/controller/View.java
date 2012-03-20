@@ -25,6 +25,10 @@ public class View {
         return null;
     }
 
+    public Object getModel() {
+        return model;
+    }
+
     public boolean hasModelData() {
         return this.model != null;
     }

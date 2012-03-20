@@ -16,6 +16,7 @@ import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 
 import static org.fest.assertions.Assertions.assertThat;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -64,5 +65,18 @@ public class AeroGearTest {
         when(httpServletRequest.getRequestDispatcher(view.getViewPath())).thenReturn(dispatcher);
         aeroGear.writeTo(view, View.class, View.class, annotations, mediaType, httpHeaders, outputStream);
         verify(dispatcher).forward(httpServletRequest, httpServletResponse);
+    }
+
+    @Test
+    public void putsModelObjectsAsRequestAttributes() throws IOException {
+        Yatch model = new Yatch();
+        View view = new View("/page.jsp", model);
+        when(httpServletRequest.getRequestDispatcher(view.getViewPath())).thenReturn(dispatcher);
+        aeroGear.writeTo(view, View.class, View.class, annotations, mediaType, httpHeaders, outputStream);
+        verify(httpServletRequest).setAttribute(eq("yatch"), eq(model));
+    }
+
+    public static class Yatch {
+
     }
 }
