@@ -3,6 +3,7 @@ package org.jboss.aerogear.controller;
 public class View {
     private final String viewPath;
     private final Object model;
+    private final TypeNameExtractor nameExtractor = new TypeNameExtractor();
 
     public View(String viewPath) {
         this(viewPath, null);
@@ -18,6 +19,13 @@ public class View {
     }
 
     public String getModelName() {
+        if (hasModelData()) {
+            return nameExtractor.nameFor(this.model.getClass());
+        }
         return null;
+    }
+
+    public boolean hasModelData() {
+        return this.model != null;
     }
 }
