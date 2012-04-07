@@ -9,6 +9,8 @@ import java.util.Arrays;
 
 public class RouteDescriptor implements RouteBuilder.OnMethods, RouteBuilder.TargetEndpoint {
     private final String path;
+    private Method targetMethod;
+    private Object[] args;
 
     public RouteDescriptor(String path) {
         this.path = path;
@@ -22,7 +24,7 @@ public class RouteDescriptor implements RouteBuilder.OnMethods, RouteBuilder.Tar
     @Override
     public <T> T to(Class<T> clazz) {
         try {
-            Object o = Enhancer.create(clazz, new MyMethodInterceptor());
+            Object o = Enhancer.create(clazz, new MyMethodInterceptor(this));
             return (T) o;
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -30,10 +32,16 @@ public class RouteDescriptor implements RouteBuilder.OnMethods, RouteBuilder.Tar
     }
 
     private static class MyMethodInterceptor implements MethodInterceptor {
+        private final RouteDescriptor routeDescriptor;
+
+        public MyMethodInterceptor(RouteDescriptor routeDescriptor) {
+            this.routeDescriptor = routeDescriptor;
+        }
+
         @Override
         public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
-            System.out.println(method);
-            System.out.println(Arrays.toString(args));
+            this.routeDescriptor.targetMethod = method;
+            this.routeDescriptor.args = args;
             return null;
         }
     }
