@@ -2,11 +2,13 @@ package org.jboss.aerogear.controller;
 
 public interface RouteBuilder {
 
-    RouteDescriptor from(String path);
+    OnMethods from(String path);
 
-    public static interface RouteDescriptor {
-        RouteDescriptor on(String...methods);
+    public static interface OnMethods {
+        TargetEndpoint on(RequestMethod... methods);
+    }
 
+    public static interface TargetEndpoint {
         <T> T to(Class<T> clazz);
     }
 }

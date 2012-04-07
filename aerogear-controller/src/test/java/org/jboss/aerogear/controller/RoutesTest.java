@@ -3,6 +3,8 @@ package org.jboss.aerogear.controller;
 import org.jboss.aerogear.controller.router.Routes;
 import org.junit.Test;
 
+import static org.jboss.aerogear.controller.RequestMethod.GET;
+
 public class RoutesTest {
 
     @Test
@@ -12,11 +14,11 @@ public class RoutesTest {
             void configuration() {
                 route()
                         .from("/home")
-                        .on("GET")
+                        .on(GET)
                         .to(SampleController.class).index();
                 route()
                         .from("/client/:name")
-                        .on("GET")
+                        .on(GET)
                         .to(SampleController.class).client(":name");
             }
         }.build();
