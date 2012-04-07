@@ -18,6 +18,6 @@ public abstract class AbstractRoutingModule {
 
     public Routes build() {
         configuration();
-        return new Routes();
+        return Routes.from(routes);
     }
 }
