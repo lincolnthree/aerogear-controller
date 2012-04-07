@@ -1,4 +1,4 @@
-package org.jboss.as.quickstarts.poh5helloworld.model;
+package org.jboss.aerogear.controller.demo.model;
 
 public class Car {
     private String color;

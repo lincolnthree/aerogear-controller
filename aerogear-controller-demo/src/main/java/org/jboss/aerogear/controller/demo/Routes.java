@@ -1,4 +1,4 @@
-package org.jboss.as.quickstarts.poh5helloworld;
+package org.jboss.aerogear.controller.demo;
 
 import org.jboss.aerogear.controller.AbstractRoutingModule;
 import org.jboss.aerogear.controller.RequestMethod;

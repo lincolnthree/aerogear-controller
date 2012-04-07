@@ -1,6 +1,6 @@
-package org.jboss.as.quickstarts.poh5helloworld;
+package org.jboss.aerogear.controller.demo;
 
-import org.jboss.as.quickstarts.poh5helloworld.model.Car;
+import org.jboss.aerogear.controller.demo.model.Car;
 
 public class Home {
 
