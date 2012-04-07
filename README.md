@@ -1,28 +1,43 @@
-# aerogear-controller POC
+# aerogear-controller PoC
 
-This is a **proof-of-concept** on having a very simple mvc controller built on top of resteasy.
+## how to create a new project
 
-## how it works
+1. add the maven dependency
 
-Just by returning a `View` instance, you can trigger page dispatch:
+        <dependency>
+            <groupId>org.jboss.aerogear</groupId>
+            <artifactId>aerogear-controller</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
 
-    @Path("/welcome")
-    @GET
-    public View anyMethodName() {
-        return new View("/WEB-INF/pages/somepage.jsp");
-    }
-    
-    
-You can pass "model" objects to the view as well:
+1. create a pojo controller
 
-    return new View("…/.jsp", new Car());
-    
-Then access it from the JSP page, for example:
+        public class Home {
+            public void index() {
+            }
+        }
 
-    <h1>${car}</h1>
+1. create a Java class containing the routes (must extend `AbstractRoutingModule`)
 
+        public class Routes extends AbstractRoutingModule {
 
+        @Override
+        public void configuration() {
+            route()
+                    .from("/")
+                    .on(RequestMethod.GET)
+                    .to(Home.class).index();
+            }
+        }
 
-### credits / attribution
+1. create a jsp page at `/WEB-INF/pages/<Controller Class Name>/<method>.jsp`
 
-mildly inspired by htmleasy and has some code extracted from VRaptor.
+        <!-- /WEB-INF/pages/Home/index.jsp -->
+        <html>
+            <body>
+                <p>hello from index!</p>
+            </body>
+        </html>
+        
+1. voilà!
