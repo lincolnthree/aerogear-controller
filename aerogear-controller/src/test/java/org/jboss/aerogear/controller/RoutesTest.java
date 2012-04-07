@@ -4,6 +4,7 @@ import org.jboss.aerogear.controller.router.Routes;
 import org.junit.Test;
 
 import static org.jboss.aerogear.controller.RequestMethod.GET;
+import static org.jboss.aerogear.controller.RequestMethod.POST;
 
 public class RoutesTest {
 
@@ -20,6 +21,10 @@ public class RoutesTest {
                         .from("/client/:name")
                         .on(GET)
                         .to(SampleController.class).client(":name");
+                route()
+                        .from("/lol")
+                        .on(GET, POST)
+                        .to(SampleController.class).lol();
             }
         }.build();
 
@@ -28,10 +33,12 @@ public class RoutesTest {
     public static class SampleController {
 
         public void index() {
-
         }
 
         public void client(String name) {
+        }
+
+        public void lol() {
         }
     }
 }
