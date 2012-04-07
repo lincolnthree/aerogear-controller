@@ -41,3 +41,6 @@
         </html>
         
 1. voilà!
+
+---
+you can find a slightly better example at <https://github.com/aerogear/aerogear-controller/tree/routes/aerogear-controller-demo> 
