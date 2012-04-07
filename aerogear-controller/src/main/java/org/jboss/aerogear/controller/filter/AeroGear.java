@@ -1,6 +1,6 @@
 package org.jboss.aerogear.controller.filter;
 
-import org.jboss.aerogear.controller.AbstractRoutingModule;
+import org.jboss.aerogear.controller.Router;
 
 import javax.inject.Inject;
 import javax.servlet.*;
@@ -11,11 +11,11 @@ import java.io.IOException;
 public class AeroGear implements Filter {
 
     @Inject
-    private AbstractRoutingModule routingModule;
+    private Router router;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        System.out.println(routingModule.build());
+
     }
 
     @Override
