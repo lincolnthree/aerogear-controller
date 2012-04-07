@@ -1,29 +1,28 @@
 package org.jboss.aerogear.controller;
 
 import org.jboss.aerogear.controller.router.Routes;
+import org.jboss.aerogear.controller.view.View;
 
-import javax.enterprise.context.spi.CreationalContext;
 import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.BeanManager;
-import javax.enterprise.inject.spi.InjectionPoint;
 import javax.inject.Inject;
-import javax.inject.Named;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 public class DefaultRouter implements Router {
 
     private Routes routes;
     private final BeanManager beanManager;
+    private ViewResolver viewResolver;
 
     @Inject
-    public DefaultRouter(RoutingModule routes, BeanManager beanManager) {
+    public DefaultRouter(RoutingModule routes, BeanManager beanManager, ViewResolver viewResolver) {
         this.routes = routes.build();
         this.beanManager = beanManager;
+        this.viewResolver = viewResolver;
     }
 
     @Override
@@ -43,14 +42,18 @@ public class DefaultRouter implements Router {
     }
 
     @Override
-    public void dispatch(HttpServletRequest request, HttpServletResponse response, FilterChain chain) {
+    public void dispatch(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException {
         try {
             Route route = routes.routeFor(extractMethod(request), extractPath(request));
             Object result = route.getTargetMethod().invoke(getController(route));
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            String viewPath = viewResolver.resolveViewPathFor(route);
+            View view = new View(viewPath, result);
+            if (view.hasModelData()) {
+                request.setAttribute(view.getModelName(), view.getModel());
+            }
+            request.getRequestDispatcher(view.getViewPath()).forward(request, response);
+        } catch (Exception e) {
+            throw new ServletException(e);
         }
     }
 
