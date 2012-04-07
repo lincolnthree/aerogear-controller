@@ -11,4 +11,6 @@ public interface RouteBuilder {
     public static interface TargetEndpoint {
         <T> T to(Class<T> clazz);
     }
+
+    Route build();
 }
