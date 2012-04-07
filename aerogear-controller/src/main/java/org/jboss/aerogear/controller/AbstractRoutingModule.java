@@ -8,7 +8,7 @@ import java.util.List;
 public abstract class AbstractRoutingModule {
     private List<RouteBuilder> routes = new LinkedList<RouteBuilder>();
 
-    abstract void configuration();
+    public abstract void configuration();
 
     public RouteBuilder route() {
         RouteBuilder route = Routes.route();

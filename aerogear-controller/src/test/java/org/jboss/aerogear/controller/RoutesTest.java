@@ -12,7 +12,7 @@ public class RoutesTest {
     public void basicRoute() {
         Routes routes = new AbstractRoutingModule() {
             @Override
-            void configuration() {
+            public void configuration() {
                 route()
                         .from("/home")
                         .on(GET)
