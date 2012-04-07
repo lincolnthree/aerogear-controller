@@ -10,6 +10,11 @@ public class RouteBuilderImpl implements RouteBuilder {
     }
 
     @Override
+    public Route build() {
+        return new DefaultRoute(routeDescriptor.getPath(), routeDescriptor.getMethods(), routeDescriptor.getTargetClass(), routeDescriptor.getTargetMethod());
+    }
+
+    @Override
     public String toString() {
         return "RouteBuilderImpl{" +
                 "routeDescriptor=" + routeDescriptor +
