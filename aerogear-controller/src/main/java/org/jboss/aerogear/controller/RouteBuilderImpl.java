@@ -1,8 +1,12 @@
 package org.jboss.aerogear.controller;
 
 public class RouteBuilderImpl implements RouteBuilder {
+
+    private RouteDescriptor routeDescriptor;
+
     @Override
     public OnMethods from(String path) {
-        return new OnMethodsImpl(path);
+        return routeDescriptor = new RouteDescriptor(path);
+    }
     }
 }
