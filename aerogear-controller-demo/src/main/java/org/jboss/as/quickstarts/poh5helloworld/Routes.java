@@ -11,5 +11,9 @@ public class Routes extends AbstractRoutingModule {
                 .from("/")
                 .on(RequestMethod.GET)
                 .to(Home.class).index();
+        route()
+                .from("/delorean")
+                .on(RequestMethod.GET)
+                .to(Home.class).anotherPage();
     }
 }
