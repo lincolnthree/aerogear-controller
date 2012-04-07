@@ -11,6 +11,8 @@ public class RouteDescriptor implements RouteBuilder.OnMethods, RouteBuilder.Tar
     private final String path;
     private Method targetMethod;
     private Object[] args;
+    private RequestMethod[] methods;
+    private Class<?> targetClass;
 
     public RouteDescriptor(String path) {
         this.path = path;
@@ -18,17 +20,35 @@ public class RouteDescriptor implements RouteBuilder.OnMethods, RouteBuilder.Tar
 
     @Override
     public RouteBuilder.TargetEndpoint on(RequestMethod... methods) {
+        this.methods = methods;
         return this;
     }
 
     @Override
     public <T> T to(Class<T> clazz) {
+        this.targetClass = clazz;
         try {
             Object o = Enhancer.create(clazz, new MyMethodInterceptor(this));
             return (T) o;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public RequestMethod[] getMethods() {
+        return methods;
+    }
+
+    public Method getTargetMethod() {
+        return targetMethod;
+    }
+
+    public Class<?> getTargetClass() {
+        return targetClass;
     }
 
     private static class MyMethodInterceptor implements MethodInterceptor {
