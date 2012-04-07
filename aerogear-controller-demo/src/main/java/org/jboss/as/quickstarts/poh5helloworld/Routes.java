@@ -8,7 +8,7 @@ public class Routes extends AbstractRoutingModule {
     @Override
     public void configuration() {
         route()
-                .from("/home")
+                .from("/")
                 .on(RequestMethod.GET)
                 .to(Home.class).index();
     }

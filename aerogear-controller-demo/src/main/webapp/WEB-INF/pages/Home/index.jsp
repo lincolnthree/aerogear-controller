@@ -1,6 +1,6 @@
 <%@page pageEncoding="UTF-8" %>
 <html>
     <body>
-        hello, index!
+        <p>hello, index!</p>
     </body>
 </html>
