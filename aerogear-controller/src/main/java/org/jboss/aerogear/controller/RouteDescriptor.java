@@ -45,4 +45,13 @@ public class RouteDescriptor implements RouteBuilder.OnMethods, RouteBuilder.Tar
             return null;
         }
     }
+
+    @Override
+    public String toString() {
+        return "RouteDescriptor{" +
+                "path='" + path + '\'' +
+                ", targetMethod=" + targetMethod +
+                ", args=" + (args == null ? null : Arrays.asList(args)) +
+                '}';
+    }
 }

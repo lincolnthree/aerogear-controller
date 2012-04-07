@@ -20,4 +20,11 @@ public class Routes {
     public static Routes from(List<RouteBuilder> routes) {
         return new Routes(routes);
     }
+
+    @Override
+    public String toString() {
+        return "Routes{" +
+                "routes=" + routes +
+                '}';
+    }
 }

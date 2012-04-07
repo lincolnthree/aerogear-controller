@@ -8,5 +8,11 @@ public class RouteBuilderImpl implements RouteBuilder {
     public OnMethods from(String path) {
         return routeDescriptor = new RouteDescriptor(path);
     }
+
+    @Override
+    public String toString() {
+        return "RouteBuilderImpl{" +
+                "routeDescriptor=" + routeDescriptor +
+                '}';
     }
 }
