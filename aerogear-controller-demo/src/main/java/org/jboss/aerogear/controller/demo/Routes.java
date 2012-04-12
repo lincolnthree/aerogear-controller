@@ -2,6 +2,7 @@ package org.jboss.aerogear.controller.demo;
 
 import org.jboss.aerogear.controller.AbstractRoutingModule;
 import org.jboss.aerogear.controller.RequestMethod;
+import org.jboss.aerogear.controller.demo.model.Car;
 
 public class Routes extends AbstractRoutingModule {
 
@@ -15,5 +16,9 @@ public class Routes extends AbstractRoutingModule {
                 .from("/delorean")
                 .on(RequestMethod.GET)
                 .to(Home.class).anotherPage();
+        route()
+                .from("/cars")
+                .on(RequestMethod.POST)
+                .to(Home.class).save(param(Car.class));
     }
 }

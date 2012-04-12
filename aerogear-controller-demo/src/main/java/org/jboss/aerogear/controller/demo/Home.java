@@ -11,4 +11,8 @@ public class Home {
     public Car anotherPage() {
         return new Car("silver", "delorean");
     }
+
+    public Car save(Car car) {
+        return car;
+    }
 }
