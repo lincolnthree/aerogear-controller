@@ -21,4 +21,12 @@ public abstract class AbstractRoutingModule implements RoutingModule {
         configuration();
         return Routes.from(routes);
     }
+
+    public static <T> T param(Class<T> clazz) {
+        return null;
+    }
+
+    public static <T> T param() {
+        return null;
+    }
 }
