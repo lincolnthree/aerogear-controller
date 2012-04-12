@@ -1,5 +1,7 @@
 # aerogear-controller PoC
 
+**NOTE:** as this is a poc, it isn't production ready, missing validations, null checks, corner cases - so please don't be picky, **focus on the concepts**:
+
 ## how to create a new project
 
 ### basic use case
