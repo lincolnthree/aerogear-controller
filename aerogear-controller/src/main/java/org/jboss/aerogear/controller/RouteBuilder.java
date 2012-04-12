@@ -1,5 +1,6 @@
 package org.jboss.aerogear.controller;
 
+
 public interface RouteBuilder {
 
     OnMethods from(String path);

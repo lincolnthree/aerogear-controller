@@ -1,6 +1,12 @@
 package org.jboss.aerogear.controller;
 
+import br.com.caelum.iogi.Iogi;
+import br.com.caelum.iogi.parameters.Parameter;
+import br.com.caelum.iogi.reflection.Target;
+import br.com.caelum.iogi.util.DefaultLocaleProvider;
+import br.com.caelum.iogi.util.NullDependencyProvider;
 import org.jboss.aerogear.controller.router.Routes;
+import org.jboss.aerogear.controller.util.StringUtils;
 import org.jboss.aerogear.controller.view.View;
 
 import javax.enterprise.inject.spi.Bean;
@@ -11,12 +17,15 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.LinkedList;
+import java.util.Map;
 
 public class DefaultRouter implements Router {
 
     private Routes routes;
     private final BeanManager beanManager;
     private ViewResolver viewResolver;
+    private Iogi iogi = new Iogi(new NullDependencyProvider(), new DefaultLocaleProvider());
 
     @Inject
     public DefaultRouter(RoutingModule routes, BeanManager beanManager, ViewResolver viewResolver) {
@@ -45,7 +54,8 @@ public class DefaultRouter implements Router {
     public void dispatch(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException {
         try {
             Route route = routes.routeFor(extractMethod(request), extractPath(request));
-            Object result = route.getTargetMethod().invoke(getController(route));
+            Object[] params = extractParameters(request, route);
+            Object result = route.getTargetMethod().invoke(getController(route), params);
             String viewPath = viewResolver.resolveViewPathFor(route);
             View view = new View(viewPath, result);
             if (view.hasModelData()) {
@@ -55,6 +65,29 @@ public class DefaultRouter implements Router {
         } catch (Exception e) {
             throw new ServletException(e);
         }
+    }
+
+    private Object[] extractParameters(HttpServletRequest request, Route route) {
+        LinkedList<Parameter> parameters = new LinkedList<Parameter>();
+        Map<String, String[]> parameterMap = request.getParameterMap();
+        for (Map.Entry<String, String[]> entry : parameterMap.entrySet()) {
+            String[] value = entry.getValue();
+            if (value.length == 1) {
+                parameters.add(new Parameter(entry.getKey(), value[0]));
+            } else {
+                System.out.println("oops, multivalued params not supported yet");
+                continue;
+            }
+        }
+        Class<?>[] parameterTypes = route.getTargetMethod().getParameterTypes();
+        if (parameterTypes.length == 1) {
+            Class<?> parameterType = parameterTypes[0];
+            Target<?> target = Target.create(parameterType, StringUtils.downCaseFirst(parameterType.getSimpleName()));
+            Object instantiate = iogi.instantiate(target, parameters.toArray(new Parameter[]{}));
+            return new Object[]{instantiate};
+        }
+
+        return new Object[0];  //To change body of created methods use File | Settings | File Templates.
     }
 
     private Object getController(Route route) {

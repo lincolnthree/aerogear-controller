@@ -3,6 +3,7 @@ package org.jboss.aerogear.controller;
 import org.jboss.aerogear.controller.router.Routes;
 import org.junit.Test;
 
+import static org.fest.assertions.Assertions.assertThat;
 import static org.jboss.aerogear.controller.RequestMethod.GET;
 import static org.jboss.aerogear.controller.RequestMethod.POST;
 
@@ -25,17 +26,24 @@ public class RoutesTest {
                         .from("/lol")
                         .on(GET, POST)
                         .to(SampleController.class).lol();
-                route()
-                        .from("/car/{car.id}")
-                        .on(GET)
-                        .to(SampleController.class).save(param("{car.id}"));
+
             }
         }.build();
 
     }
 
-    private static <T> T param(final String s) {
-        return (T) null;
+    @Test
+    public void routesWithParameters() {
+        Routes routes = new AbstractRoutingModule() {
+            @Override
+            public void configuration() {
+                route()
+                        .from("/cars")
+                        .on(POST)
+                        .to(SampleController.class).save(param(Car.class));
+            }
+        }.build();
+        assertThat(routes.hasRouteFor(POST, "/cars")).isTrue();
     }
 
     public static class SampleController {
@@ -64,6 +72,13 @@ public class RoutesTest {
 
         public String getName() {
             return name;
+        }
+
+        @Override
+        public String toString() {
+            return "Car{" +
+                    "name='" + name + '\'' +
+                    '}';
         }
     }
 }
