@@ -55,6 +55,12 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
+            <groupId>br.com.caelum</groupId>
+            <artifactId>iogi</artifactId>
+            <version>0.9.1</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.8.1</version>
