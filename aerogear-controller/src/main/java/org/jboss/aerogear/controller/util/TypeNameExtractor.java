@@ -47,11 +47,11 @@ public class TypeNameExtractor {
 
         String name = raw.getSimpleName();
 
-        return downCaseFirst(name);
+        return StringUtils.downCaseFirst(name);
     }
 
     private String nameFor(TypeVariable<?> variable) {
-        return downCaseFirst(variable.getName());
+        return StringUtils.downCaseFirst(variable.getName());
     }
 
     private String nameFor(WildcardType wild) {
@@ -68,30 +68,6 @@ public class TypeNameExtractor {
             return nameFor(type.getActualTypeArguments()[0]) + "List";
         }
         return nameFor(raw);
-    }
-
-    public static String decapitalize(String name) {
-        if (name.length() == 1) {
-            return name.toLowerCase();
-        }
-        return Character.toLowerCase(name.charAt(0)) + name.substring(1);
-    }
-
-    public static String downCaseFirst(String name) {
-        // common case: SomeClass -> someClass
-        if (name.length() > 1 && Character.isLowerCase(name.charAt(1))) {
-            return decapitalize(name);
-        }
-
-        // different case: URLClassLoader -> urlClassLoader
-        for (int i = 1; i < name.length(); i++) {
-            if (Character.isLowerCase(name.charAt(i))) {
-                return name.substring(0, i - 1).toLowerCase() + name.substring(i - 1, name.length());
-            }
-        }
-
-        // all uppercase: URL -> url
-        return name.toLowerCase();
     }
 
 }
