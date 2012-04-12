@@ -16,4 +16,12 @@ public class Car {
     public String getBrand() {
         return brand;
     }
+
+    @Override
+    public String toString() {
+        return "Car{" +
+                "color='" + color + '\'' +
+                ", brand='" + brand + '\'' +
+                '}';
+    }
 }
