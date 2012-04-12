@@ -25,9 +25,17 @@ public class RoutesTest {
                         .from("/lol")
                         .on(GET, POST)
                         .to(SampleController.class).lol();
+                route()
+                        .from("/car/{car.id}")
+                        .on(GET)
+                        .to(SampleController.class).save(param("{car.id}"));
             }
         }.build();
 
+    }
+
+    private static <T> T param(final String s) {
+        return (T) null;
     }
 
     public static class SampleController {
@@ -41,6 +49,9 @@ public class RoutesTest {
         public void lol() {
         }
 
+        public void save(Car car) {
+
+        }
     }
 
     public static class Car {
