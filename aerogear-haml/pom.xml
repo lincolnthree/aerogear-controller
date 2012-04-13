@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>aerogear-haml</groupId>
+    <artifactId>aerogear-haml</artifactId>
+    <version>1.0</version>
+
+    <properties>
+        <version.jruby>1.6.7</version.jruby>
+        <version.haml>3.1.4</version.haml>
+        <version.jruby-maven-plugins>0.28.4</version.jruby-maven-plugins>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.jruby</groupId>
+            <artifactId>jruby-complete</artifactId>
+            <version>${version.jruby}</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+
+    <repositories>
+        <repository>
+            <id>rubygems-proxy</id>
+            <name>Rubygems Proxy</name>
+            <url>http://rubygems-proxy.torquebox.org/releases</url>
+            <layout>default</layout>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+                <updatePolicy>never</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>de.saumya.mojo</groupId>
+                <artifactId>gem-maven-plugin</artifactId>
+                <version>${version.jruby-maven-plugins}</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <jrubyVersion>${version.jruby}</jrubyVersion>
+                    <gemHome>${project.build.directory}/classes</gemHome>
+                    <gemPath>${project.build.directory}/classes</gemPath>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>install-gems</id>
+                        <goals>
+                            <goal>install</goal>
+                        </goals>
+                        <phase>compile</phase>
+                        <inherited>true</inherited>
+                        <configuration>
+                            <installArgs>haml -v=${version.haml}</installArgs>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
