@@ -8,9 +8,11 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 @WebFilter(filterName = "aerogear-haml", urlPatterns = "*.haml")
 public class HamlFilter implements Filter {
@@ -29,43 +31,22 @@ public class HamlFilter implements Filter {
 
         ScriptingContainer container = new ScriptingContainer();
         container.setCompatVersion(CompatVersion.RUBY1_9);
-        container.put("locals", extractLocals(httpServletRequest));
-        container.put("page", extractPage(httpServletRequest));
+//        container.put("data", extractLocals(httpServletRequest));
+        container.put("page", extractPageLocation(httpServletRequest));
+        container.put("writer", httpServletResponse.getWriter());
         String script = "require 'rubygems'\n" +
                 "require 'haml'\n" +
-                "Haml::Engine.new(page).render(Object.new, locals)";
-        Object result = container.runScriptlet(script);
-        String renderedPage = container.getInstance(result, String.class);
-        httpServletResponse.getWriter().print(renderedPage);
+                "puts page\n" +
+                "result = Haml::Engine.new(open(page).read).render(Object.new, {})\n" +
+                "writer.println(result)\n";
+        container.runScriptlet(script);
     }
 
-    private String extractPage(HttpServletRequest httpServletRequest) throws FileNotFoundException, ServletException {
+    private String extractPageLocation(HttpServletRequest httpServletRequest) throws FileNotFoundException, ServletException {
         ServletContext servletContext = httpServletRequest.getServletContext();
-        InputStream resourceAsStream = servletContext.getResourceAsStream(httpServletRequest.getRequestURI());
-        if (resourceAsStream != null) {
-            InputStreamReader reader = new InputStreamReader(resourceAsStream);
-            BufferedReader bufferedReader = new BufferedReader(reader);
-            StringBuilder builder = new StringBuilder();
-            String tmp = null;
-            try {
-                while ((tmp = bufferedReader.readLine()) != null) {
-                    builder.append(tmp);
-                }
-                return builder.toString();
-            } catch (IOException e) {
-                throw new ServletException(e);
-            } finally {
-                try {
-                    bufferedReader.close();
-                    reader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        } else {
-            throw new ServletException("null resource");
-        }
-
+        String contextPath = Pattern.quote(servletContext.getContextPath());
+        String requestURI = httpServletRequest.getRequestURI().replaceFirst(contextPath, "");
+        return servletContext.getRealPath(requestURI);
     }
 
     private Map<String, Object> extractLocals(HttpServletRequest httpServletRequest) {
@@ -75,7 +56,7 @@ public class HamlFilter implements Filter {
             String attributeName = attributeNames.nextElement();
             locals.put(attributeName, httpServletRequest.getAttribute(attributeName));
         }
-        return locals;
+        return Collections.unmodifiableMap(locals);
     }
 
     private boolean isHttpServletContainer(ServletRequest request, ServletResponse response) {
