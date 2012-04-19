@@ -1,0 +1,9 @@
+!!!5
+%html
+    %head
+        %title haml page!
+    %body
+        %h1 this is a haml page
+        %ul
+            - (1..5).each do |i|
+                %li= "#{i} you can use ruby code!"
