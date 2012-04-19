@@ -1,7 +1,6 @@
 <%@page pageEncoding="UTF-8" %>
 <html>
     <body>
-        <p>it works!</p>
-        <p>${message.text}</p>
+        hello, this is a ${car.color} ${car.brand} page!
     </body>
 </html>
