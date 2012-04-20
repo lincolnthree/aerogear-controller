@@ -1,17 +1,19 @@
 package org.jboss.aerogear.controller;
 
-import org.jboss.aerogear.controller.router.Routes;
-import org.junit.Test;
-
 import static org.fest.assertions.Assertions.assertThat;
 import static org.jboss.aerogear.controller.RequestMethod.GET;
 import static org.jboss.aerogear.controller.RequestMethod.POST;
+
+import java.util.List;
+
+import org.jboss.aerogear.controller.routes.Route;
+import org.junit.Test;
 
 public class RoutesTest {
 
     @Test
     public void basicRoute() {
-        Routes routes = new AbstractRoutingModule() {
+        List<? extends Route> routes = new AbstractRoutingModule() {
             @Override
             public void configuration() {
                 route()
@@ -28,13 +30,13 @@ public class RoutesTest {
                         .to(SampleController.class).lol();
 
             }
-        }.build();
+        }.getRoutes();
 
     }
 
     @Test
-    public void routesWithParameters() {
-        Routes routes = new AbstractRoutingModule() {
+    public void routesWithParameters() throws SecurityException, NoSuchMethodException {
+        List<? extends Route> routes = new AbstractRoutingModule() {
             @Override
             public void configuration() {
                 route()
@@ -42,8 +44,12 @@ public class RoutesTest {
                         .on(POST)
                         .to(SampleController.class).save(param(Car.class));
             }
-        }.build();
-        assertThat(routes.hasRouteFor(POST, "/cars")).isTrue();
+        }.getRoutes();
+
+        assertThat(routes.get(0).getMethods().contains(POST));
+        assertThat(routes.get(0).getPath()).isEqualTo("/cars");
+        assertThat(routes.get(0).getTargetClass()).isEqualTo(SampleController.class);
+        assertThat(routes.get(0).getTargetMethod()).isEqualTo(SampleController.class.getMethod("save", Car.class));
     }
 
     public static class SampleController {

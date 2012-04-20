@@ -1,5 +1,7 @@
 package org.jboss.aerogear.controller;
 
+import org.jboss.aerogear.controller.routes.Route;
+
 public class DefaultViewResolver implements ViewResolver {
 
     private static final String DEFAULT_PREFIX = "/WEB-INF/pages";

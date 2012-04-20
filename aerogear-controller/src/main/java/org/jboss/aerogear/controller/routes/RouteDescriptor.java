@@ -1,11 +1,13 @@
-package org.jboss.aerogear.controller;
+package org.jboss.aerogear.controller.routes;
+
+import java.lang.reflect.Method;
+import java.util.Arrays;
+
+import org.jboss.aerogear.controller.RequestMethod;
 
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
-
-import java.lang.reflect.Method;
-import java.util.Arrays;
 
 public class RouteDescriptor implements RouteBuilder.OnMethods, RouteBuilder.TargetEndpoint {
     private final String path;
@@ -25,10 +27,11 @@ public class RouteDescriptor implements RouteBuilder.OnMethods, RouteBuilder.Tar
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <T> T to(Class<T> clazz) {
         this.targetClass = clazz;
         try {
-            Object o = Enhancer.create(clazz, new MyMethodInterceptor(this));
+            Object o = Enhancer.create(clazz, new RouteMethodInterceptor(this));
             return (T) o;
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -51,10 +54,10 @@ public class RouteDescriptor implements RouteBuilder.OnMethods, RouteBuilder.Tar
         return targetClass;
     }
 
-    private static class MyMethodInterceptor implements MethodInterceptor {
+    private static class RouteMethodInterceptor implements MethodInterceptor {
         private final RouteDescriptor routeDescriptor;
 
-        public MyMethodInterceptor(RouteDescriptor routeDescriptor) {
+        public RouteMethodInterceptor(RouteDescriptor routeDescriptor) {
             this.routeDescriptor = routeDescriptor;
         }
 
@@ -68,10 +71,7 @@ public class RouteDescriptor implements RouteBuilder.OnMethods, RouteBuilder.Tar
 
     @Override
     public String toString() {
-        return "RouteDescriptor{" +
-                "path='" + path + '\'' +
-                ", targetMethod=" + targetMethod +
-                ", args=" + (args == null ? null : Arrays.asList(args)) +
-                '}';
+        return "RouteDescriptor{" + "path='" + path + '\'' + ", targetMethod=" + targetMethod + ", args="
+                + (args == null ? null : Arrays.asList(args)) + '}';
     }
 }
