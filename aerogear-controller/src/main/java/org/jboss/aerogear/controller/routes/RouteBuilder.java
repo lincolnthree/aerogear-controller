@@ -9,7 +9,6 @@ import org.jboss.aerogear.controller.RequestMethod;
 
 public class RouteBuilder implements Route {
 
-
     public static interface OnMethods {
         TargetEndpoint on(RequestMethod... methods);
     }
